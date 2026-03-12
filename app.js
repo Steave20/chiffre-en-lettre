@@ -117,7 +117,7 @@ const RANGES = {
   'normal':     [100001,     1000000],
   'hard':       [1000001,    100000000],
   'very-hard':  [100000001,  1000000000],
-  'impossible': [1000000001, 999999999999],
+  'impossible': [1000000001, 999999999999999],
 };
 
 // =============================================
@@ -188,25 +188,42 @@ function fr_below1000(n, noFinalS) {
   return s;
 }
 
-/** Main French number-to-words function. */
+/** Main French number-to-words function (jusqu'aux billiards - 10^15). */
 function numberToWordsFR(num) {
   if (!Number.isFinite(num) || num < 0) return '';
   if (num === 0) return 'zéro';
   let result = '';
   let n = Math.floor(num);
 
+  // Billiard : 10^15
+  if (n >= 1000000000000000) {
+    const bd = Math.floor(n / 1000000000000000);
+    result += (bd === 1 ? 'un billiard' : fr_below1000(bd, true) + ' billiards');
+    n %= 1000000000000000;
+    if (n > 0) result += ' ';
+  }
+  // Billion : 10^12
+  if (n >= 1000000000000) {
+    const bn = Math.floor(n / 1000000000000);
+    result += (bn === 1 ? 'un billion' : fr_below1000(bn, true) + ' billions');
+    n %= 1000000000000;
+    if (n > 0) result += ' ';
+  }
+  // Milliard : 10^9
   if (n >= 1000000000) {
-    const b = Math.floor(n / 1000000000);
-    result += (b === 1 ? 'un milliard' : fr_below1000(b, true) + ' milliards');
+    const md = Math.floor(n / 1000000000);
+    result += (md === 1 ? 'un milliard' : fr_below1000(md, true) + ' milliards');
     n %= 1000000000;
     if (n > 0) result += ' ';
   }
+  // Million : 10^6
   if (n >= 1000000) {
     const m = Math.floor(n / 1000000);
     result += (m === 1 ? 'un million' : fr_below1000(m, true) + ' millions');
     n %= 1000000;
     if (n > 0) result += ' ';
   }
+  // Mille : 10^3
   if (n >= 1000) {
     const k = Math.floor(n / 1000);
     result += (k === 1 ? 'mille' : fr_below1000(k, true) + ' mille');
@@ -240,23 +257,38 @@ function en_below1000(n) {
   return EN_ONES[h] + ' hundred' + (r ? ' ' + en_below100(r) : '');
 }
 
-/** Main English number-to-words function. */
+/** Main English number-to-words function (up to quadrillions - 10^15). */
 function numberToWordsEN(num) {
   if (!Number.isFinite(num) || num < 0) return '';
   if (num === 0) return 'zero';
   let result = '';
   let n = Math.floor(num);
 
+  // Quadrillion : 10^15
+  if (n >= 1000000000000000) {
+    result += en_below1000(Math.floor(n / 1000000000000000)) + ' quadrillion';
+    n %= 1000000000000000;
+    if (n > 0) result += ' ';
+  }
+  // Trillion : 10^12
+  if (n >= 1000000000000) {
+    result += en_below1000(Math.floor(n / 1000000000000)) + ' trillion';
+    n %= 1000000000000;
+    if (n > 0) result += ' ';
+  }
+  // Billion : 10^9
   if (n >= 1000000000) {
     result += en_below1000(Math.floor(n / 1000000000)) + ' billion';
     n %= 1000000000;
     if (n > 0) result += ' ';
   }
+  // Million : 10^6
   if (n >= 1000000) {
     result += en_below1000(Math.floor(n / 1000000)) + ' million';
     n %= 1000000;
     if (n > 0) result += ' ';
   }
+  // Thousand : 10^3
   if (n >= 1000) {
     result += en_below1000(Math.floor(n / 1000)) + ' thousand';
     n %= 1000;
@@ -363,7 +395,7 @@ function convert() {
   if (val === '') return;
 
   const num = parseInt(val, 10);
-  if (isNaN(num) || num < 0 || num > 999999999999) {
+  if (isNaN(num) || num < 0 || num > Number.MAX_SAFE_INTEGER) {
     showConverterError();
     return;
   }
@@ -390,9 +422,9 @@ function convert() {
 function liveConvert() {
   const input = document.getElementById('converter-input');
   const val = input.value.trim();
-  if (val === '' || val.length > 12) return;
+  if (val === '' || val.length > 16) return;
   const num = parseInt(val, 10);
-  if (!isNaN(num) && num >= 0 && num <= 999999999999) {
+  if (!isNaN(num) && num >= 0 && num <= Number.MAX_SAFE_INTEGER) {
     convert();
   }
 }
@@ -401,8 +433,8 @@ function showConverterError() {
   const resultEl  = document.getElementById('converter-result');
   const resultBox = document.getElementById('result-box');
   resultEl.textContent = state.lang === 'fr'
-    ? 'Nombre invalide (0 – 999 999 999 999)'
-    : 'Invalid number (0 – 999,999,999,999)';
+    ? 'Nombre invalide (0 – 999 999 999 999 999)'
+    : 'Invalid number (0 – 999,999,999,999,999)';
   resultEl.classList.remove('placeholder');
   resultBox.classList.remove('has-result');
   resultEl.classList.add('shake');
