@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chiffres en Lettres</title>
+  <meta name="description" content="Apprenez à écrire les chiffres en lettres. Quiz, convertisseur, mode Q/R.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+</head>
+<body>
+
+  <!-- ===== HEADER / NAVIGATION ===== -->
+  <header id="navbar">
+    <div class="nav-container">
+      <a class="logo" href="#" onclick="navigate('home'); return false;">
+        <span class="logo-symbol">✦</span>
+        <span class="logo-text">Chiffres<em>en</em>Lettres</span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="#" onclick="navigate('home'); return false;" data-i18n="nav_home">Accueil</a>
+        <a href="#" onclick="navigate('converter'); return false;" data-i18n="nav_converter">Convertisseur</a>
+        <a href="#" onclick="navigate('mcq-setup'); return false;" data-i18n="nav_mcq">QCM</a>
+        <a href="#" onclick="navigate('qa-setup'); return false;" data-i18n="nav_qa">Q / R</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="lang-btn" onclick="toggleLang()" class="btn-pill" title="Switch language">FR</button>
+        <button id="theme-btn" onclick="toggleTheme()" class="btn-icon" title="Toggle theme" aria-label="Toggle theme">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main id="app">
+
+    <!-- ===================== PAGE: HOME ===================== -->
+    <section id="page-home" class="page active">
+      <div class="hero">
+        <div class="hero-badge" data-i18n="hero_badge">Éducatif · Bilingue · Gratuit</div>
+        <h1 class="hero-title">
+          <span data-i18n="hero_title_1">Chiffres</span>
+          <em data-i18n="hero_title_2">en Lettres</em>
+        </h1>
+        <p class="hero-sub" data-i18n="hero_subtitle">Entraînez-vous à convertir les chiffres en lettres et les lettres en chiffres</p>
+      </div>
+
+      <div class="mode-cards">
+        <div class="mode-card" onclick="navigate('converter')">
+          <div class="card-icon converter-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h2 data-i18n="start_converter">Convertisseur</h2>
+          <p data-i18n="converter_desc">Convertissez instantanément un nombre en lettres</p>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="mode-card featured" onclick="navigate('mcq-setup')">
+          <div class="card-icon mcq-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <h2 data-i18n="start_mcq">Mode QCM</h2>
+          <p data-i18n="mcq_desc">Testez-vous avec des questions à choix multiple</p>
+          <span class="card-arrow">→</span>
+        </div>
+
+        <div class="mode-card" onclick="navigate('qa-setup')">
+          <div class="card-icon qa-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h2 data-i18n="start_qa">Question / Réponse</h2>
+          <p data-i18n="qa_desc">Écrivez le chiffre correspondant à un nombre en lettres</p>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+
+      <!-- Recent stats on home -->
+      <div class="home-stats" id="home-stats"></div>
+    </section>
+
+    <!-- ===================== PAGE: CONVERTER ===================== -->
+    <section id="page-converter" class="page hidden">
+      <div class="page-header">
+        <button onclick="navigate('home')" class="back-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span data-i18n="nav_home">Accueil</span>
+        </button>
+        <h2 data-i18n="converter_title">Convertisseur</h2>
+      </div>
+
+      <div class="converter-card card">
+        <div class="converter-input-group">
+          <input type="number" id="converter-input" class="converter-input"
+            data-i18n-placeholder="converter_placeholder"
+            placeholder="Entrez un nombre..."
+            min="0" max="999999999999"
+            oninput="liveConvert()"
+            onkeydown="if(event.key==='Enter') convert()">
+          <div class="converter-btns">
+            <button onclick="convert()" class="btn-primary" data-i18n="btn_convert">Convertir</button>
+            <button onclick="resetConverter()" class="btn-secondary" data-i18n="btn_reset">Réinitialiser</button>
+          </div>
+        </div>
+        <div class="result-box" id="result-box">
+          <p id="converter-result" class="result-text placeholder" data-i18n="converter_result_placeholder">Le résultat apparaîtra ici</p>
+          <button id="copy-btn" onclick="copyResult()" class="btn-copy hidden" data-i18n="btn_copy">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copier
+          </button>
+        </div>
+        <div class="converter-hint" id="converter-hint"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PAGE: MCQ SETUP ===================== -->
+    <section id="page-mcq-setup" class="page hidden">
+      <div class="page-header">
+        <button onclick="navigate('home')" class="back-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span data-i18n="nav_home">Accueil</span>
+        </button>
+        <h2 data-i18n="mcq_title">Mode QCM</h2>
+      </div>
+      <div id="mcq-setup-form" class="setup-card card">
+        <!-- Difficulty -->
+        <div class="setup-section">
+          <h3 data-i18n="difficulty">Niveau de difficulté</h3>
+          <div class="difficulty-grid" id="mcq-diff-grid">
+            <button class="diff-btn active" data-diff="very-easy" onclick="selectDiff('mcq', this, 'very-easy')">
+              <span class="diff-emoji">🟢</span>
+              <span class="diff-label" data-i18n="diff_very_easy">Très Facile</span>
+              <span class="diff-range" data-i18n="diff_very_easy_range">1 – 1 000</span>
+            </button>
+            <button class="diff-btn" data-diff="easy" onclick="selectDiff('mcq', this, 'easy')">
+              <span class="diff-emoji">🟡</span>
+              <span class="diff-label" data-i18n="diff_easy">Facile</span>
+              <span class="diff-range" data-i18n="diff_easy_range">1 001 – 100 000</span>
+            </button>
+            <button class="diff-btn" data-diff="normal" onclick="selectDiff('mcq', this, 'normal')">
+              <span class="diff-emoji">🟠</span>
+              <span class="diff-label" data-i18n="diff_normal">Normal</span>
+              <span class="diff-range" data-i18n="diff_normal_range">100 001 – 1 000 000</span>
+            </button>
+            <button class="diff-btn" data-diff="hard" onclick="selectDiff('mcq', this, 'hard')">
+              <span class="diff-emoji">🔴</span>
+              <span class="diff-label" data-i18n="diff_hard">Difficile</span>
+              <span class="diff-range" data-i18n="diff_hard_range">1 000 001 – 100 000 000</span>
+            </button>
+            <button class="diff-btn" data-diff="very-hard" onclick="selectDiff('mcq', this, 'very-hard')">
+              <span class="diff-emoji">🟣</span>
+              <span class="diff-label" data-i18n="diff_very_hard">Très Difficile</span>
+              <span class="diff-range" data-i18n="diff_very_hard_range">100 000 001 – 1 000 000 000</span>
+            </button>
+            <button class="diff-btn" data-diff="impossible" onclick="selectDiff('mcq', this, 'impossible')">
+              <span class="diff-emoji">⚫</span>
+              <span class="diff-label" data-i18n="diff_impossible">Impossible</span>
+              <span class="diff-range" data-i18n="diff_impossible_range">&gt; 1 000 000 000</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Questions count -->
+        <div class="setup-section">
+          <h3 data-i18n="questions_count">Nombre de questions</h3>
+          <div class="count-grid" id="mcq-count-grid">
+            <button class="count-btn active" data-count="10" onclick="selectCount('mcq', this, 10)">10</button>
+            <button class="count-btn" data-count="20" onclick="selectCount('mcq', this, 20)">20</button>
+            <button class="count-btn" data-count="30" onclick="selectCount('mcq', this, 30)">30</button>
+            <button class="count-btn" data-count="custom" onclick="selectCount('mcq', this, 'custom')" data-i18n="custom">Personnalisé</button>
+          </div>
+          <div id="mcq-custom-wrap" class="custom-wrap hidden">
+            <input type="number" id="mcq-custom-input" class="custom-input" min="1" max="100" value="15" placeholder="1 – 100">
+          </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="setup-section">
+          <h3 data-i18n="timer_option">Chronomètre</h3>
+          <div class="timer-toggle-row">
+            <div class="toggle-group">
+              <button class="toggle-btn active" id="mcq-timer-off" onclick="setTimerOpt('mcq', false)" data-i18n="timer_disabled">Désactivé</button>
+              <button class="toggle-btn" id="mcq-timer-on" onclick="setTimerOpt('mcq', true)" data-i18n="timer_enabled">Activé</button>
+            </div>
+          </div>
+          <div id="mcq-timer-config" class="timer-config hidden">
+            <label data-i18n="timer_duration">Durée (minutes)</label>
+            <input type="number" id="mcq-timer-minutes" class="custom-input" min="1" max="120" value="5">
+          </div>
+        </div>
+
+        <button onclick="startQuiz('mcq')" class="btn-primary btn-large btn-start" data-i18n="btn_start">Commencer</button>
+      </div>
+    </section>
+
+    <!-- ===================== PAGE: MCQ QUIZ ===================== -->
+    <section id="page-mcq-quiz" class="page hidden">
+      <div class="quiz-topbar">
+        <button onclick="confirmExit()" class="btn-exit" title="Quitter">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="quiz-progress-wrap">
+          <div class="progress-track">
+            <div class="progress-fill" id="mcq-progress-fill"></div>
+          </div>
+          <span class="progress-label" id="mcq-progress-label">1 / 10</span>
+        </div>
+        <div class="quiz-timer-badge" id="mcq-timer-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="mcq-timer-display">05:00</span>
+        </div>
+      </div>
+
+      <div class="quiz-card card">
+        <div class="q-label" id="mcq-q-label">Question 1</div>
+        <div class="q-number" id="mcq-number">245</div>
+        <div class="choices-grid" id="mcq-choices">
+          <!-- JS generated -->
+        </div>
+        <div class="feedback-bar" id="mcq-feedback"></div>
+        <div class="quiz-actions">
+          <button id="btn-next-mcq" onclick="nextQuestion('mcq')" class="btn-primary btn-next hidden" data-i18n="btn_next">Suivant →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PAGE: QA SETUP ===================== -->
+    <section id="page-qa-setup" class="page hidden">
+      <div class="page-header">
+        <button onclick="navigate('home')" class="back-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span data-i18n="nav_home">Accueil</span>
+        </button>
+        <h2 data-i18n="qa_title">Question / Réponse</h2>
+      </div>
+      <div class="setup-card card">
+        <!-- Difficulty -->
+        <div class="setup-section">
+          <h3 data-i18n="difficulty">Niveau de difficulté</h3>
+          <div class="difficulty-grid" id="qa-diff-grid">
+            <button class="diff-btn active" data-diff="very-easy" onclick="selectDiff('qa', this, 'very-easy')">
+              <span class="diff-emoji">🟢</span>
+              <span class="diff-label" data-i18n="diff_very_easy">Très Facile</span>
+              <span class="diff-range" data-i18n="diff_very_easy_range">1 – 1 000</span>
+            </button>
+            <button class="diff-btn" data-diff="easy" onclick="selectDiff('qa', this, 'easy')">
+              <span class="diff-emoji">🟡</span>
+              <span class="diff-label" data-i18n="diff_easy">Facile</span>
+              <span class="diff-range" data-i18n="diff_easy_range">1 001 – 100 000</span>
+            </button>
+            <button class="diff-btn" data-diff="normal" onclick="selectDiff('qa', this, 'normal')">
+              <span class="diff-emoji">🟠</span>
+              <span class="diff-label" data-i18n="diff_normal">Normal</span>
+              <span class="diff-range" data-i18n="diff_normal_range">100 001 – 1 000 000</span>
+            </button>
+            <button class="diff-btn" data-diff="hard" onclick="selectDiff('qa', this, 'hard')">
+              <span class="diff-emoji">🔴</span>
+              <span class="diff-label" data-i18n="diff_hard">Difficile</span>
+              <span class="diff-range" data-i18n="diff_hard_range">1 000 001 – 100 000 000</span>
+            </button>
+            <button class="diff-btn" data-diff="very-hard" onclick="selectDiff('qa', this, 'very-hard')">
+              <span class="diff-emoji">🟣</span>
+              <span class="diff-label" data-i18n="diff_very_hard">Très Difficile</span>
+              <span class="diff-range" data-i18n="diff_very_hard_range">100 000 001 – 1 000 000 000</span>
+            </button>
+            <button class="diff-btn" data-diff="impossible" onclick="selectDiff('qa', this, 'impossible')">
+              <span class="diff-emoji">⚫</span>
+              <span class="diff-label" data-i18n="diff_impossible">Impossible</span>
+              <span class="diff-range" data-i18n="diff_impossible_range">&gt; 1 000 000 000</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Questions count -->
+        <div class="setup-section">
+          <h3 data-i18n="questions_count">Nombre de questions</h3>
+          <div class="count-grid" id="qa-count-grid">
+            <button class="count-btn active" data-count="10" onclick="selectCount('qa', this, 10)">10</button>
+            <button class="count-btn" data-count="20" onclick="selectCount('qa', this, 20)">20</button>
+            <button class="count-btn" data-count="30" onclick="selectCount('qa', this, 30)">30</button>
+            <button class="count-btn" data-count="custom" onclick="selectCount('qa', this, 'custom')" data-i18n="custom">Personnalisé</button>
+          </div>
+          <div id="qa-custom-wrap" class="custom-wrap hidden">
+            <input type="number" id="qa-custom-input" class="custom-input" min="1" max="100" value="15" placeholder="1 – 100">
+          </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="setup-section">
+          <h3 data-i18n="timer_option">Chronomètre</h3>
+          <div class="timer-toggle-row">
+            <div class="toggle-group">
+              <button class="toggle-btn active" id="qa-timer-off" onclick="setTimerOpt('qa', false)" data-i18n="timer_disabled">Désactivé</button>
+              <button class="toggle-btn" id="qa-timer-on" onclick="setTimerOpt('qa', true)" data-i18n="timer_enabled">Activé</button>
+            </div>
+          </div>
+          <div id="qa-timer-config" class="timer-config hidden">
+            <label data-i18n="timer_duration">Durée (minutes)</label>
+            <input type="number" id="qa-timer-minutes" class="custom-input" min="1" max="120" value="5">
+          </div>
+        </div>
+
+        <button onclick="startQuiz('qa')" class="btn-primary btn-large btn-start" data-i18n="btn_start">Commencer</button>
+      </div>
+    </section>
+
+    <!-- ===================== PAGE: QA QUIZ ===================== -->
+    <section id="page-qa-quiz" class="page hidden">
+      <div class="quiz-topbar">
+        <button onclick="confirmExit()" class="btn-exit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="quiz-progress-wrap">
+          <div class="progress-track">
+            <div class="progress-fill" id="qa-progress-fill"></div>
+          </div>
+          <span class="progress-label" id="qa-progress-label">1 / 10</span>
+        </div>
+        <div class="quiz-timer-badge" id="qa-timer-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="qa-timer-display">05:00</span>
+        </div>
+      </div>
+
+      <div class="quiz-card card">
+        <div class="q-label" id="qa-q-label">Question 1</div>
+        <div class="q-word" id="qa-word">deux cent quarante-cinq</div>
+        <div class="qa-input-wrap">
+          <input type="number" id="qa-input" class="qa-input"
+            data-i18n-placeholder="input_placeholder"
+            placeholder="Entrez le nombre..."
+            onkeydown="if(event.key==='Enter' && !document.getElementById('btn-submit-qa').classList.contains('hidden')) submitQA()">
+          <button id="btn-submit-qa" onclick="submitQA()" class="btn-primary" data-i18n="btn_submit">Valider</button>
+        </div>
+        <div class="feedback-bar" id="qa-feedback"></div>
+        <div class="quiz-actions">
+          <button id="btn-next-qa" onclick="nextQuestion('qa')" class="btn-primary btn-next hidden" data-i18n="btn_next">Suivant →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PAGE: RESULTS ===================== -->
+    <section id="page-results" class="page hidden">
+      <div class="results-card card">
+        <h2 class="results-title" data-i18n="results_title">Résultats</h2>
+
+        <div class="score-ring-wrap">
+          <svg class="score-ring" viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="50"/>
+            <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="314"/>
+          </svg>
+          <div class="score-ring-text">
+            <span id="score-pct" class="score-pct">0%</span>
+            <span class="score-sub" data-i18n="score_label">Score</span>
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-stat correct-stat">
+            <div class="stat-icon">✓</div>
+            <div class="stat-val" id="res-correct">0</div>
+            <div class="stat-key" data-i18n="correct_label">Bonnes réponses</div>
+          </div>
+          <div class="result-stat wrong-stat">
+            <div class="stat-icon">✗</div>
+            <div class="stat-val" id="res-wrong">0</div>
+            <div class="stat-key" data-i18n="wrong_label">Mauvaises réponses</div>
+          </div>
+          <div class="result-stat time-stat">
+            <div class="stat-icon">⏱</div>
+            <div class="stat-val" id="res-time">—</div>
+            <div class="stat-key" data-i18n="time_used">Temps utilisé</div>
+          </div>
+        </div>
+
+        <!-- Mistake review -->
+        <div id="mistakes-section" class="mistakes-section hidden">
+          <h3 data-i18n="mistakes_title">À revoir</h3>
+          <div id="mistakes-list" class="mistakes-list"></div>
+        </div>
+
+        <div class="results-actions">
+          <button onclick="replay()" class="btn-primary" data-i18n="btn_replay">Rejouer</button>
+          <button onclick="navigate('home')" class="btn-secondary" data-i18n="btn_home">Accueil</button>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- /app -->
+
+  <!-- ===== EXIT CONFIRM MODAL ===== -->
+  <div id="modal-exit" class="modal-overlay hidden" onclick="if(event.target===this) closeModal()">
+    <div class="modal-box card">
+      <p data-i18n="exit_confirm">Quitter le quiz ? Votre progression sera perdue.</p>
+      <div class="modal-actions">
+        <button onclick="doExit()" class="btn-danger" data-i18n="btn_exit_yes">Quitter</button>
+        <button onclick="closeModal()" class="btn-secondary" data-i18n="btn_exit_no">Continuer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-symbol">✦</span>
+        <span data-i18n="footer_text">Chiffres en Lettres © 2026</span>
+      </div>
+      <p class="footer-legal" data-i18n="footer_legal">
+        Les informations transmises sont données à titre indicatif. L'utilisation est gratuite et réservée à un usage strictement personnel.
+      </p>
+      <p class="footer-dev">
+        <span data-i18n="footer_dev">Développé par</span>
+        <a href="https://www.linkedin.com/company/tobi-tech-sa" target="_blank" rel="noopener">Tobi Tech</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
